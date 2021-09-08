@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+#parent를 하나 지웠더니 프로젝트가 기본폴더가 되씸
+#쉬바..근데 다른게 안됨...ㅋ 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -23,9 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6^!9lcp6wln)!3%-_$cx0v#hl$qdg%lvaq=_-cg57&=9un+ds$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+#개발모드로 지정되어 있다. 만약 운영모드로 하고싶다면 False로 지정한다. 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#설정1 : IP를 설정한다.
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'livepolls.apps.LivepollsConfig',
+    'tempapps.apps.TempappsConfig',
+    'books.apps.BooksConfig',
 ]
 
 MIDDLEWARE = [
@@ -51,10 +59,21 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'myApp01.urls'
 
+
+'''
+템플릿 파일에 대한 설정으로 템플릿 파일을 찾을때는 
+TEMPLATES, INSTALLED_APPS 에서 지정된 앱의 디렉토리를 검색한다. 
+
+첨에 할때는 DIRS : [] 이상태로 개발했음. 
+차후 템플릿 경로를 변경하기 위해 아래 2가지 해봤는데 별다른 성과없음
+BASE_DIR / 'templates'
+#os.path.join(BASE_DIR, 'templates')
+아래처럼 해서 성공함. 그리고 urls.py에 views 임포트를 livepolls로 해가지고 졸라 고생해씸..
+'''
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'myApp01/templates')], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,9 +122,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
+# 시간대 설정
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -117,8 +137,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+# 정적리소스 설정하기. css 혹은 이미지 등
+######### FirstProject/static -> 이렇게 하믄 프로젝트 레벨로 설정될듯 하네.
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
