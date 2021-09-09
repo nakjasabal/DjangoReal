@@ -12,6 +12,21 @@ def view(request, pk):
     post = Post.objects.get(pk=pk)
     return render(request, 'board/view.html', {'post':post})
 
+def edit(request, pk):
+    post = Post.objects.get(pk=pk)
+    if request.method=='POST':
+        try:
+            post.titles=request.POST['titles']
+            post.contents=request.POST['contents']
+            post.mainphoto=request.FILES['mainphoto']
+        except:
+            post.titles=request.POST['titles']
+            post.contents=request.POST['contents']
+        post.save()
+        return redirect('../view/'+str(pk))
+    else:
+        return render(request, 'board/edit.html', {'post':post})
+
 def write(request):
     if request.method=='POST':
         try :            
@@ -25,14 +40,14 @@ def write(request):
                 titles=request.POST['titles'],
                 contents=request.POST['contents'],
             )       
-        return redirect('/list')
+        return redirect('../list')
     return render(request, 'board/write.html')
 
 def delete(request, pk):
     post = Post.objects.get(pk=pk)
     if request.method=='GET':
         post.delete()
-        return redirect('/list')
+        return redirect('../list')
     
 
 

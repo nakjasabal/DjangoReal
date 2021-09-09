@@ -5,24 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script>
+        function postDelete(pk){
+            if(confirm('삭제하시겠습니까?')){
+                location.href='../delete/'+pk;
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>내용보기</h1>
     <h4>{{ post.titles }}</h4>
     <p>
-        {{ post.contents}}
+        {{ post.contents|linebreaks }}
     </p>
     {% if post.mainphoto %}
         <img src="{{ post.mainphoto.url }}" height="500"><br>
     {% endif %}
-    <a href="javascript:postDelete({{ post.pk }});">글삭제하기</button>
-    <a href="/list/">목록바로가기</a>
+    <div>
+        <a href="../edit/{{ post.pk }}">글수정하기</button>
+        <a href="javascript:postDelete({{ post.pk }});">글삭제하기</button>
+        <a href="../list/">목록바로가기</a>
+    </div>
 </body>
 </html>
-<script>
-    function postDelete(pk){
-        if(confirm('삭제하시겠습니까?')){
-            location.href='/list/'+pk+'/delete';
-        }
-    }
-</script>

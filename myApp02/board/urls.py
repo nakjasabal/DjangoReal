@@ -9,9 +9,10 @@ app_name = 'board'
 urlpatterns = [
     path('', views.index, name="index"),
     path('list/', views.list, name="list"),
-    path('list/<int:pk>', views.view, name="view"),
+    path('view/<int:pk>', views.view, name="view"),
     path('write/', views.write, name="write"),
-    path('list/<int:pk>/delete', views.delete, name="delete"),
+    path('edit/<int:pk>', views.edit, name="edit"),
+    path('delete/<int:pk>', views.delete, name="delete"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -11,11 +11,11 @@
     <table border='1'>
     {% for list in postlist %}
         <tr>
-            <td><a href="{{list.pk}}">{{ list.titles }}</a></td>
+            <td><a href="../view/{{list.pk}}">{{ list.titles }}</a></td>
             <td>{{ list.contents }}</td>
         </tr>
     {% endfor %}
     </table>
-    <a href="/write/">글쓰기</a>
+    <a href="../write/">글쓰기</a>
 </body>
 </html>
